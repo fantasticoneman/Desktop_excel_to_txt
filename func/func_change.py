@@ -46,7 +46,7 @@ class FuncStartChange:
 
     def main_logic(self):
         if self.check_file():
-            self.total_tasks = 4
+            self.total_tasks = 5
             self.completed_tasks = 0  # 已完成任务数
             # 获取文件扩展名
             _, result = os.path.splitext(self.excel_path.toPlainText())
@@ -61,22 +61,38 @@ class FuncStartChange:
                 return
             # 更新进度
             self.update_progress()
-            # 将数量抽取转换成int
-            result_data['数量'] = result_data['数量'].astype(int)
+
+            def print_number(result_data):
+                if '数量' in result_data.columns:
+                    result_data = result_data.rename(columns={'数量': 'num'})
+                    result_data['num'] = result_data['num'].astype(int)
+                elif 'Number of prints' in result_data.columns:
+                    result_data = result_data.rename(columns={'Number of prints': 'num'})
+                    result_data['num'] = result_data['num'].astype(int)
+                else:
+                    # 新增一列每行数据都是1
+                    result_data['num'] = 1
+                return result_data
+
+            # 对dataframe里面的打印数量列进行处理
+            result_data = print_number(result_data)
+            # 更新进度
+            self.update_progress()
+
             # 将剩下的列的每行的值用连接符号拼接并转成sting
-            result_data['合并'] = result_data.drop('数量', axis=1).apply(
+            result_data['合并'] = result_data.drop('num', axis=1).apply(
                 lambda x: '%s' % self.separator_symbol.text().join(x.astype(str)), axis=1)
             # 将拼接后的列跟数量列合并成一个新的dataframe
-            final_data = result_data[['合并', '数量']]
+            final_data = result_data[['合并', 'num']]
             # 更新进度
             self.update_progress()
             # 获取当前时间并格式化为字符串
             current_time = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
             # 覆盖写入文本
             with open(r'%s\%s.txt' % (self.txt_path.toPlainText(), current_time), 'w', encoding='utf-8') as file:
-                # 遍历DataFrame对象（即new_data）的每一行，index为行号，从零开始；row为每行的内容
+                # 遍历DataFrame对象的每一行，index为行号，从零开始；row为每行的内容
                 for index, row in final_data.iterrows():
                     # 覆盖写入拼接后的每行内容，该内容重复写入对应行的数量，直至下一行
-                    file.write((row['合并'] + '\n') * row['数量'])
+                    file.write((row['合并'] + '\n') * row['num'])
             # 更新进度
             self.update_progress()
