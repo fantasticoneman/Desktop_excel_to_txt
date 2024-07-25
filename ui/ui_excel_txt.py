@@ -260,7 +260,7 @@ class UiForm(object):
         QMetaObject.connectSlotsByName(form)
 
     def retranslate_ui(self, form):
-        form.setWindowTitle(QCoreApplication.translate("form", "Format conversion tool V1.0.0.0", None))
+        form.setWindowTitle(QCoreApplication.translate("form", "Format Conversion Tool", None))
         self.choose_ch.setText(QCoreApplication.translate("form", "Simplified Chinese", None))
         self.choose_en.setText(QCoreApplication.translate("form", "English", None))
         self.excel_label.setText(QCoreApplication.translate("form", "Path to Excel:", None))

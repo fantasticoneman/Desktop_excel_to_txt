@@ -45,6 +45,7 @@ class FuncStartChange:
             QMessageBox.information(self.parent_widget, success_title, success_message)
 
     def main_logic(self):
+        self.ui.progressBar.setValue(0)
         if self.check_file():
             self.total_tasks = 5
             self.completed_tasks = 0  # 已完成任务数
