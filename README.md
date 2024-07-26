@@ -1,5 +1,6 @@
-作为一个python编程新手，我知道这段代码还有很多不足之处。恳请各位前辈不吝赐教，指出其中的问题并分享您的经验。
-软件实现的功能是把excel文件的内容通过特殊符号拼接起来，最后生成txt文本。
+①作为一个python编程新手，我知道这段代码还有很多不足之处。恳请各位前辈不吝赐教，指出其中的问题并分享您的经验。  
+②软件实现的功能是把excel文件的内容通过特殊符号拼接起来，最后生成txt文本。  
+③打包命令为：pyinstaller --onefile --noconsole --add-data "项目地址/ui/icons/feather/repeat.svg;icons/feather" --add-data "项目地址/ui/translations/*.qm;translations" -i 项目地址\ui\logo.ico .\main.py
 ---------------------------------------------------------
 V1.0.0.2(2024.7.25)
 1. 新增进度条重置功能，多次点击开始转换，进度条都会从0开始
